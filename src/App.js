@@ -1,25 +1,21 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
 import './App.css';
+import Tabs from "./Components/Tabs";
+import Audio from "./Components/Audio";
+import Lyrics from "./Components/Lyrics";
+import Meaning from "./Components/Meaning";
 
-function App() {
+const App = () => {
+  const [activeTab, setActiveTab] = useState("Audio");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="max-w-md mx-auto mt-10 border rounded p-4 shadow">
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      {activeTab === "Audio" && <Audio />}
+      {activeTab === "Lyrics" && <Lyrics />}
+      {activeTab === "Meaning" && <Meaning />}
     </div>
   );
-}
+};
 
 export default App;
