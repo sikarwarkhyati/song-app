@@ -1,59 +1,46 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useRef, useState } from "react";
+import "./App.css";
 
-const Audio = () => {
-  const [cover, setCover] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [songUrl, setSongUrl] = useState(""); // optional preview
+const AudioTab = ({ activeTab, coverImageUrl, audioUrl }) => {
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
-    const fetchCover = async () => {
-      try {
-        const res = await axios.get("https://itunes.apple.com/search", {
-          params: {
-            term: "Shape of You",
-            entity: "song",
-            limit: 1
-          }
-        });
-        const result = res.data.results[0];
-        if (result) {
-          const image = result.artworkUrl100.replace("100x100", "300x300");
-          setCover(image);
-          setSongUrl(result.previewUrl); // 30s preview
-        }
-      } catch (err) {
-        console.error("Cover fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const togglePlayPause = () => {
+    if (audioRef.current.paused) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    } else {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
 
-    fetchCover();
-  }, []);
+  const skipTime = (seconds) => {
+    audioRef.current.currentTime += seconds;
+  };
 
   return (
-    <div className="text-center mt-4">
-      {loading ? (
-        <p>Loading cover...</p>
-      ) : (
-        <>
+    activeTab === 'Audio' && (
+      <div className="content">
+        {coverImageUrl && (
           <img
-            src={cover}
-            alt="Cover Art"
-            className="mx-auto rounded-lg shadow-md w-64 h-64 object-cover"
+            src={coverImageUrl}
+            alt="Cover"
+            className="cover-image"
           />
-          {songUrl && (
-            <div className="mt-4">
-              <audio controls src={songUrl}>
-                Your browser does not support the audio element.
-              </audio>
-            </div>
-          )}
-        </>
-      )}
-    </div>
+        )}
+        <audio ref={audioRef} controls className="audio-player">
+          <source src={audioUrl} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        <div className="controls">
+          <button onClick={() => skipTime(-10)}>-10s</button>
+          <button onClick={togglePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
+          <button onClick={() => skipTime(10)}>+10s</button>
+        </div>
+      </div>
+    )
   );
 };
 
-export default Audio;
+export default AudioTab;

@@ -1,4 +1,4 @@
-/* Reset some basic styles */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -8,37 +8,42 @@
 html, body {
   height: 100%;
   width: 100%;
+  background-color: #121212;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f4f4f4;
-  font-family: Arial, sans-serif;
 }
 
-/* Full-screen flexbox container */
+/* Container and Card */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  width: 100%; /* Full width */
+  min-height: 100vh;
+  width: 100%;
 }
 
-/* Card styling */
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 600px;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 700px;
+  text-align: center;
 }
 
-/* Button group inside the card */
+/* Header */
+h2 {
+  color: #4fc3f7;
+  margin-bottom: 10px;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tab Buttons */
 .button-group {
   display: flex;
   justify-content: center;
@@ -46,59 +51,87 @@ html, body {
 }
 
 .button-group button {
-  background-color: #6200ea;
+  background-color: #ff6f00; /* Orange */
   color: white;
-  padding: 10px 20px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 5px;
-  margin: 0 5px;
+  margin: 0 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
   font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-.button-group button.active {
-  background-color: #3700b3;
+.button-group button.active,
+.button-group button:hover,
+.language-options button.active {
+  background-color: #e65100; /* Dark Orange */
 }
 
-.button-group button:hover {
-  background-color: #3700b3;
-}
-
-/* Content styling (lyrics, audio, meaning) */
+/* Tab Content */
 .content {
-  text-align: center;
+  color: white;
+  font-size: 18px;
+  line-height: 1.8;
+  animation: fadeIn 0.8s ease-in-out;
+  margin-top: 20px;
+}
+
+/* Cover Image */
+.cover-image {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+/* Audio Player */
+.audio-player {
   width: 100%;
+  margin-top: 10px;
 }
 
-.lyrics-text p {
-  font-size: 18px;
-  color: #333;
+/* Lyrics Text */
+.lyrics-text {
+  font-size: 16px;
+  color: #ddd;
   line-height: 1.6;
+  white-space: pre-wrap;
+  margin-top: 20px;
 }
 
-.audio-player,
-.meaning {
-  font-size: 18px;
+/* Language Options */
+.language-options {
+  margin-bottom: 10px;
+}
+
+.language-options button {
+  margin: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ffccbc;
   color: #333;
-}
-
-.loading {
-  font-size: 18px;
-  color: #6200ea;
+  cursor: pointer;
   font-weight: bold;
 }
 
-/* Add animations for transitions */
+/* Loading Text */
+.loading {
+  font-size: 18px;
+  color: #ffccbc;
+  font-weight: bold;
+}
+
+/* Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
-}
-
-.lyrics-text p {
-  animation: fadeIn 1s ease-in-out;
 }
