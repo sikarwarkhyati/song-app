@@ -1,45 +1,84 @@
-import React, { useRef, useState } from "react";
-import "./App.css";
+// src/Components/Audio.js
 
-const AudioTab = ({ activeTab, coverImageUrl, audioUrl }) => {
-  const audioRef = useRef(null);
+import React, { useState, useRef, useEffect } from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../App.css';
+
+const playlist = [
+  {
+    title: "Song One",
+    audioUrl: "https://samplelib.com/lib/preview/mp3/sample-3s.mp3",
+    coverImage: "../cover1.jpg",
+  },
+  {
+    title: "Song Two",
+    audioUrl: "https://samplelib.com/lib/preview/mp3/sample-6s.mp3",
+    coverImage: "../cover1.jpg",
+  },
+  {
+    title: "Song Three",
+    audioUrl: "https://samplelib.com/lib/preview/mp3/sample-9s.mp3",
+    coverImage: "../cover1.jpg",
+  },
+];
+
+const AudioTab = () => {
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
 
-  const togglePlayPause = () => {
-    if (audioRef.current.paused) {
-      audioRef.current.play();
-      setIsPlaying(true);
-    } else {
-      audioRef.current.pause();
-      setIsPlaying(false);
+  const currentSong = playlist[currentSongIndex];
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      if (isPlaying) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
     }
+  }, [currentSongIndex, isPlaying]);
+
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
   };
 
-  const skipTime = (seconds) => {
-    audioRef.current.currentTime += seconds;
+  const nextSong = () => {
+    setCurrentSongIndex((prev) => (prev + 1) % playlist.length);
+    setIsPlaying(false);
+  };
+
+  const prevSong = () => {
+    setCurrentSongIndex((prev) =>
+      prev === 0 ? playlist.length - 1 : prev - 1
+    );
+    setIsPlaying(false);
   };
 
   return (
-    activeTab === 'Audio' && (
-      <div className="content">
-        {coverImageUrl && (
-          <img
-            src={coverImageUrl}
-            alt="Cover"
-            className="cover-image"
-          />
-        )}
-        <audio ref={audioRef} controls className="audio-player">
-          <source src={audioUrl} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <div className="controls">
-          <button onClick={() => skipTime(-10)}>-10s</button>
-          <button onClick={togglePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
-          <button onClick={() => skipTime(10)}>+10s</button>
-        </div>
+    <div className="audio-container">
+      <img
+        src={currentSong.coverImage}
+        alt="Cover"
+        className="cover-image"
+      />
+      <audio ref={audioRef} src={currentSong.audioUrl} onEnded={nextSong} />
+
+      <div className="controls">
+        <button className="nav-button" onClick={prevSong}>
+          <i className="bi bi-skip-start-fill"></i>
+        </button>
+        <button className="play-button" onClick={togglePlay}>
+          <i className={`bi ${isPlaying ? 'bi-pause-fill' : 'bi-play-fill'}`}></i>
+        </button>
+        <button className="nav-button" onClick={nextSong}>
+          <i className="bi bi-skip-end-fill"></i>
+        </button>
       </div>
-    )
+
+      <p className="song-title">{currentSong.title}</p>
+    </div>
   );
 };
 

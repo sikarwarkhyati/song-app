@@ -1,126 +1,107 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import axios from 'axios';
+import React, { useState } from 'react';
+import './App.css';
+import AudioTab from './Components/Audio';
 
-const Lyrics = () => {
-  const [currentTab, setCurrentTab] = useState('lyrics');
-  const [cover, setCover] = useState('');
-  const [songUrl, setSongUrl] = useState('');
-  const [lyrics, setLyrics] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [translations, setTranslations] = useState({});
-  const [loading, setLoading] = useState(true);
+const LyricsApp = () => {
+  const [activeTab, setActiveTab] = useState('lyrics');
+  const [language, setLanguage] = useState('english');
 
-  const songName = 'Shape of You'; // You can make this dynamic
-
-  useEffect(() => {
-    const fetchSongData = async () => {
-      try {
-        const res = await axios.get('https://itunes.apple.com/search', {
-          params: {
-            term: songName,
-            entity: 'song',
-            limit: 1
-          }
-        });
-        const result = res.data.results[0];
-        if (result) {
-          setCover(result.artworkUrl100.replace('100x100', '300x300'));
-          setSongUrl(result.previewUrl);
-        }
-      } catch (error) {
-        console.error('Error fetching song data:', error);
-      }
-    };
-
-    const fetchLyrics = async () => {
-      try {
-        const res = await axios.get(`https://api.lyrics.ovh/v1/Ed Sheeran/${songName}`);
-        setLyrics(res.data.lyrics);
-      } catch (error) {
-        console.error('Error fetching lyrics:', error);
-        setLyrics('Lyrics not found.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSongData();
-    fetchLyrics();
-  }, [songName]);
-
-  const languages = ['en', 'hi', 'ta', 'te', 'kn'];
-
-  const handleLanguageChange = async (lang) => {
-    setSelectedLanguage(lang);
-    if (lang === 'en') return;
-
-    try {
-      const res = await axios.post('https://libretranslate.com/translate', {
-        q: lyrics,
-        source: 'en',
-        target: lang,
-        format: 'text'
-      });
-      setTranslations((prev) => ({ ...prev, [lang]: res.data.translatedText }));
-    } catch (error) {
-      console.error('Translation error:', error);
-    }
+  // Lyrics for the song in different languages
+  const lyrics = {
+    english: `
+      Oh no, if you were formless,
+      I would be the vehicle of knowledge, dear Kanna.
+      Oh no, if you were dance, then
+      I would be the vehicle of the mind, dear Kanna.
+    `,
+    hindi: `
+      ओ नहीं, अगर तुम निराकार होते,
+      तो मैं ज्ञान का वाहन होती, प्रिय कन्ना।
+      ओ नहीं, अगर तुम नृत्य होते,
+      तो मैं मन का वाहन होती, प्रिय कन्ना।
+    `,
+    kannada: `
+      ಅಯ್ಯೋ, ನೀನು ನಿರಾಕಾರವಾಗಿದ್ದೆಲ್ಲಿ,
+      ನಾನು ಜ್ಞಾನವೆಂಬ ವಾಹನವಾಗಿದ್ದೆ, ಕಣ್ಣಾ.
+      ಅಯ್ಯೋ, ನೀನು ನಾಟ್ಯಕೆ, ನಿಂದಲ್ಲಿ,
+      ನಾನು ಚಿತ್ತನ್ವೆಂಬ ವಾಹನವಾಗಿದ್ದೆ, ಕಣ್ಣಾ.
+    `,
+    tamil: `
+      அய்யோ, நீ விரிவாக இல்லாவிட்டால்,
+      நான் அறிவின் வாகனமாக இருந்திருப்பேன், கண்ணா.
+      அய்யோ, நீ நடனம் என்றால்,
+      நான் மனதின் வாகனமாக இருந்திருப்பேன், கண்ணா.
+    `,
+    telugu: `
+      అయ్యో, నీవు నిరాకారమైపోతే,
+      నేను జ్ఞానపు వాహనమయ్యేదాన్ని, కన్నా.
+      అయ్యో, నీవు నాట్యమైతే,
+      నేను మనస్సు వాహనమయ్యేదాన్ని, కన్నా.
+    `,
   };
 
   return (
     <div className="container">
-      <motion.div className="card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <div className="button-group">
-          {['audio', 'lyrics', 'meaning'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setCurrentTab(tab)}
-              className={currentTab === tab ? 'active' : ''}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
+      <div className="card">
+        <h2>Lyrics</h2>
+
+        {/* Language Selector */}
+        <div className="language-options">
+          <button onClick={() => setLanguage('english')}>English</button>
+          <button onClick={() => setLanguage('hindi')}>Hindi</button>
+          <button onClick={() => setLanguage('kannada')}>Kannada</button>
+          <button onClick={() => setLanguage('tamil')}>Tamil</button>
+          <button onClick={() => setLanguage('telugu')}>Telugu</button>
         </div>
 
-        {loading ? (
-          <p className="loading">Loading...</p>
-        ) : (
-          <div className="content">
-            {currentTab === 'audio' && (
-              <>
-                <img src={cover} alt="Cover" className="cover-image" />
-                <audio controls src={songUrl} className="audio-player" />
-              </>
-            )}
+        {/* Tab Buttons */}
+        <div className="button-group">
+          <button
+            className={activeTab === 'audio' ? 'active' : ''}
+            onClick={() => setActiveTab('audio')}
+          >
+            Audio
+          </button>
+          <button
+            className={activeTab === 'lyrics' ? 'active' : ''}
+            onClick={() => setActiveTab('lyrics')}
+          >
+            Lyrics
+          </button>
+          <button
+            className={activeTab === 'meaning' ? 'active' : ''}
+            onClick={() => setActiveTab('meaning')}
+          >
+            Meaning
+          </button>
+        </div>
 
-            {currentTab === 'lyrics' && (
-              <>
-                <div className="language-options">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang}
-                      onClick={() => handleLanguageChange(lang)}
-                      className={selectedLanguage === lang ? 'active' : ''}
-                    >
-                      {lang.toUpperCase()}
-                    </button>
-                  ))}
-                </div>
-                <p className="lyrics-text">
-                  {selectedLanguage === 'en' ? lyrics : translations[selectedLanguage] || 'Translating...'}
-                </p>
-              </>
-            )}
+        <div className="content">
+          {activeTab === 'audio' && (
+            <AudioTab
+              activeTab={activeTab}
+              songTitle="believer"
+              audioUrl="https://samplelib.com/lib/preview/mp3/sample-3s.mp3"
+            />
+          )}
 
-            {currentTab === 'meaning' && (
-              <p className="meaning">Meaning / Summary feature coming soon...</p>
-            )}
-          </div>
-        )}
-      </motion.div>
+          {activeTab === 'lyrics' && (
+            <div className="lyrics-text">
+              {lyrics[language]}
+            </div>
+          )}
+
+          {activeTab === 'meaning' && (
+            <div>
+              {/* Provide English meaning or translation for lyrics */}
+              Oh no, if you were formless, I would be the vehicle of knowledge, dear Kanna. <br />
+              Oh no, if you were dance, then I would be the vehicle of the mind, dear Kanna.
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Lyrics;
+export default LyricsApp;

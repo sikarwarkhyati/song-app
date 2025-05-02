@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://libretranslate.de/translate"; // or your server if proxy
+const API_URL = "https://libretranslate.de/translate";
 
 export const translateText = async (text, targetLang = "hi") => {
   const res = await axios.post(API_URL, {
