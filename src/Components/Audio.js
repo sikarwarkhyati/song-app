@@ -85,6 +85,8 @@ const AudioTab = () => {
     return `${minutes}:${remainingSeconds}`;
   };
 
+  const timeLeft = duration - currentTime;
+
   return (
     <div className="audio-container">
       <img
@@ -92,15 +94,10 @@ const AudioTab = () => {
         alt="Cover"
         className="cover-image"
       />
-      <audio
-        ref={audioRef}
-        src={currentSong.audioUrl}
-        onEnded={nextSong}
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleLoadedMetadata}
-      />
+      <p className="song-title">{currentSong.title}</p> {/* Song title above progress bar */}
 
-      <div className="progress-bar-container">
+      <div className="progress-bar-wrapper"> {/* New wrapper for progress bar and time */}
+        <div className="time-display-left">{formatTime(currentTime)}</div>
         <input
           type="range"
           className="progress-bar"
@@ -109,10 +106,16 @@ const AudioTab = () => {
           max={duration}
           onChange={handleSeek}
         />
-        <div className="time-display">
-          {formatTime(currentTime)} / {formatTime(duration)}
-        </div>
+        <div className="time-display-right">-{formatTime(timeLeft)}</div> {/* Time left on the right */}
       </div>
+
+      <audio
+        ref={audioRef}
+        src={currentSong.audioUrl}
+        onEnded={nextSong}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+      />
 
       <div className="controls">
         <button className="nav-button" onClick={prevSong}>
@@ -125,8 +128,6 @@ const AudioTab = () => {
           <i className="bi bi-skip-end-fill"></i>
         </button>
       </div>
-
-      <p className="song-title">{currentSong.title}</p>
     </div>
   );
 };
