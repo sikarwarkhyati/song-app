@@ -25,6 +25,8 @@ const playlist = [
 const AudioTab = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
   const currentSong = playlist[currentSongIndex];
@@ -39,6 +41,25 @@ const AudioTab = () => {
       }
     }
   }, [currentSongIndex, isPlaying]);
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleSeek = (event) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = parseFloat(event.target.value);
+      setCurrentTime(parseFloat(event.target.value));
+    }
+  };
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
@@ -56,6 +77,14 @@ const AudioTab = () => {
     setIsPlaying(false);
   };
 
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, '0');
+    return `${minutes}:${remainingSeconds}`;
+  };
+
   return (
     <div className="audio-container">
       <img
@@ -63,7 +92,27 @@ const AudioTab = () => {
         alt="Cover"
         className="cover-image"
       />
-      <audio ref={audioRef} src={currentSong.audioUrl} onEnded={nextSong} />
+      <audio
+        ref={audioRef}
+        src={currentSong.audioUrl}
+        onEnded={nextSong}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+      />
+
+      <div className="progress-bar-container">
+        <input
+          type="range"
+          className="progress-bar"
+          value={currentTime}
+          min="0"
+          max={duration}
+          onChange={handleSeek}
+        />
+        <div className="time-display">
+          {formatTime(currentTime)} / {formatTime(duration)}
+        </div>
+      </div>
 
       <div className="controls">
         <button className="nav-button" onClick={prevSong}>

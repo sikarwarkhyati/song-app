@@ -95,11 +95,17 @@ html, body {
   color: white;
   font-size: 32px;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
 
 .controls button:hover {
   color: #ff6f00;
 }
+
+.controls button:active {
+  color: #ffa040; /* Lighter orange when pressed */
+}
+
 
 /* Language Option Buttons */
 .language-options {
@@ -158,9 +164,9 @@ html, body {
 .progress-bar {
   flex: 1;
   appearance: none;
-  height: 5px;
-  background: #ccc;
-  border-radius: 5px;
+  height: 6px;
+  background: linear-gradient(to right, #ff6f00, #ffa040);
+  border-radius: 4px;
   outline: none;
   cursor: pointer;
 }
