@@ -3,10 +3,9 @@ import './App.css';
 import AudioTab from './Components/Audio';
 
 const LyricsApp = () => {
-  const [activeTab, setActiveTab] = useState('lyrics');
+  const [activeTab, setActiveTab] = useState('audio'); // Set 'audio' as the initial active tab
   const [language, setLanguage] = useState('english');
 
-  // Lyrics for the song in different languages
   const lyrics = {
     english: `
       Oh no, if you were formless,
@@ -41,60 +40,66 @@ const LyricsApp = () => {
   };
 
   return (
-    <div className="container">
-      <div className="card">
+    <div className="container lyrics-app-container">
+      <div className="card lyrics-app-card">
+        <h2 className="app-title">Melody & Meaning</h2>
 
         {/* Language Selector */}
         <div className="language-options">
-          <button onClick={() => setLanguage('english')}>Eng</button>
-          <button onClick={() => setLanguage('hindi')}>अ</button>
-          <button onClick={() => setLanguage('kannada')}>Kannada</button>
-          <button onClick={() => setLanguage('tamil')}>Tamil</button>
-          <button onClick={() => setLanguage('telugu')}>Telugu</button>
+          <button onClick={() => setLanguage('english')} className={language === 'english' ? 'active' : ''}>Eng</button>
+          <button onClick={() => setLanguage('hindi')} className={language === 'hindi' ? 'active' : ''}>अ</button>
+          <button onClick={() => setLanguage('kannada')} className={language === 'kannada' ? 'active' : ''}>Kannada</button>
+          <button onClick={() => setLanguage('tamil')} className={language === 'tamil' ? 'active' : ''}>Tamil</button>
+          <button onClick={() => setLanguage('telugu')} className={language === 'telugu' ? 'active' : ''}>Telugu</button>
         </div>
 
         {/* Tab Buttons */}
         <div className="button-group">
           <button
-            className={activeTab === 'audio' ? 'active' : ''}
+            className={`tab-button ${activeTab === 'audio' ? 'active' : ''}`}
             onClick={() => setActiveTab('audio')}
           >
-            Audio
+            <i className="bi bi-music-note-beamed"></i> Audio
           </button>
           <button
-            className={activeTab === 'lyrics' ? 'active' : ''}
+            className={`tab-button ${activeTab === 'lyrics' ? 'active' : ''}`}
             onClick={() => setActiveTab('lyrics')}
           >
-            Lyrics
+            <i className="bi bi-file-earmark-text"></i> Lyrics
           </button>
           <button
-            className={activeTab === 'meaning' ? 'active' : ''}
+            className={`tab-button ${activeTab === 'meaning' ? 'active' : ''}`}
             onClick={() => setActiveTab('meaning')}
           >
-            Meaning
+            <i className="bi bi-translate"></i> Meaning
           </button>
         </div>
 
-        <div className="content">
+        <div className="content lyrics-app-content">
           {activeTab === 'audio' && (
             <AudioTab
               activeTab={activeTab}
-              songTitle="believer"
+              songTitle="Believer"
               audioUrl="https://samplelib.com/lib/preview/mp3/sample-3s.mp3"
             />
           )}
 
           {activeTab === 'lyrics' && (
-            <div className="lyrics-text">
-              {lyrics[language]}
+            <div className="lyrics-container">
+              <pre className="lyrics-text">{lyrics[language]}</pre>
             </div>
           )}
 
           {activeTab === 'meaning' && (
-            <div>
-              {/* Provide English meaning or translation for lyrics */}
-              Oh no, if you were formless, I would be the vehicle of knowledge, dear Kanna. <br />
-              Oh no, if you were dance, then I would be the vehicle of the mind, dear Kanna.
+            <div className="meaning-container">
+              <h3>Meaning:</h3>
+              <p>
+                Oh no, if you were formless, I would be the vehicle of knowledge, dear Kanna.
+              </p>
+              <p>
+                Oh no, if you were dance, then I would be the vehicle of the mind, dear Kanna.
+              </p>
+              {/* You can add more detailed meanings here */}
             </div>
           )}
         </div>

@@ -151,51 +151,59 @@ html, body {
   }
 }
 
-/* Song Title */
-.song-title {
-  color: #eee;
-  font-size: 1.2em; /* Reduced font size */
-  margin-top: 2px; /* Moved it even closer to the image */
-  margin-bottom: 10px;
-  font-style: italic; /* Added italic style for a touch of flair */
-  opacity: 0.8; /* Slightly less prominent */
+/* Marquee Container */
+.marquee-container {
+  overflow: hidden; /* Hide text that goes beyond the container */
+  white-space: nowrap; /* Prevent text from wrapping */
+  margin-bottom: 5px; /* Space between title/artist and progress bar */
+}
+
+/* Song Marquee */
+.song {
+  display: inline-block; /* Allows for scrolling */
+  padding-left: 100%; /* Start off-screen to the right */
+  animation: marquee 22s linear infinite 0s; /* Ensured 0s delay for immediate start */
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 1.2em; /* Adjust as needed */
+  color: #eee; /* Default color */
 }
 
 /* Progress Bar Wrapper and Time Display */
 .progress-bar-wrapper {
   display: flex;
   align-items: center;
-  margin-top: 10px; /* Adjust spacing as needed */
-  margin-bottom: 15px; /* Space below the progress bar */
-  width: 100%; /* Take full width of the audio container */
-  padding-left: 15px; /* Align with the image start */
-  padding-right: 15px; /* Align with the image end */
+  margin-top: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .time-display-left {
   color: #ddd;
   font-size: 14px;
-  width: auto; /* Adjust width automatically */
+  width: auto;
   text-align: left;
 }
 
 .time-display-right {
   color: #ddd;
   font-size: 14px;
-  width: auto; /* Adjust width automatically */
+  width: auto;
   text-align: right;
 }
 
 .progress-bar {
-  flex: 1; /* Allows the progress bar to take up available width */
+  flex: 1;
   appearance: none;
-  height: 8px; /* Adjust height as needed */
-  background: #444; /* Darker background for the bar */
-  border-radius: 4px; /* Rounded corners for the bar */
+  height: 8px;
+  background: linear-gradient(to right, #ff6f00, #ffca28, #66bb6a, #42a5f5, #ab47bc); /* Multi-color gradient */
+  border-radius: 4px;
   outline: none;
   cursor: pointer;
-  margin-left: 8px; /* Small space between left time and bar */
-  margin-right: 8px; /* Small space between bar and right time */
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 /* Styling the progress bar thumb (the draggable part) for different browsers */
@@ -204,7 +212,7 @@ html, body {
   width: 16px; /* Adjust thumb width */
   height: 16px; /* Adjust thumb height */
   border-radius: 50%;
-  background: #ff6f00; /* Accent color for the thumb */
+  background: #eee; /* Light color for the thumb for contrast */
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
@@ -214,7 +222,7 @@ html, body {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #ff6f00;
+  background: #eee; /* Light color for the thumb for contrast */
   cursor: pointer;
   border: none; /* Remove default border for Firefox */
   transition: background-color 0.3s ease-in-out;
@@ -224,7 +232,7 @@ html, body {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #ff6f00;
+  background: #eee; /* Light color for the thumb for contrast */
   cursor: pointer;
   border: none; /* Remove default border for IE/Edge */
   transition: background-color 0.3s ease-in-out;
@@ -232,15 +240,21 @@ html, body {
 
 .progress-bar:hover::-webkit-slider-thumb,
 .progress-bar:focus::-webkit-slider-thumb {
-  background-color: #e65100;
+  background-color: #ddd;
 }
 
 .progress-bar:hover::-moz-range-thumb,
 .progress-bar:focus::-moz-range-thumb {
-  background-color: #e65100;
+  background-color: #ddd;
 }
 
 .progress-bar:hover::-ms-thumb,
 .progress-bar:focus::-ms-thumb {
-  background-color: #e65100;
+  background-color: #ddd;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }

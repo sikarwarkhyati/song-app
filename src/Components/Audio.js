@@ -6,17 +6,20 @@ import '../App.css';
 
 const playlist = [
   {
-    title: "Song One",
+    title: "Song", // Single word title
+    artist: "Artist A - Another Long Artist Name",
     audioUrl: "https://samplelib.com/lib/preview/mp3/sample-3s.mp3",
     coverImage: "../cover1.jpg",
   },
   {
-    title: "Song Two",
+    title: "Track", // Single word title
+    artist: "Artist B",
     audioUrl: "https://samplelib.com/lib/preview/mp3/sample-6s.mp3",
     coverImage: "../cover1.jpg",
   },
   {
-    title: "Song Three",
+    title: "Music", // Single word title
+    artist: "The Cool Band",
     audioUrl: "https://samplelib.com/lib/preview/mp3/sample-9s.mp3",
     coverImage: "../cover1.jpg",
   },
@@ -94,9 +97,13 @@ const AudioTab = () => {
         alt="Cover"
         className="cover-image"
       />
-      <p className="song-title">{currentSong.title}</p> {/* Song title above progress bar */}
+      <div className="marquee-container">
+        <p className="song">
+          {currentSong.title.split(' ')[0]} ({currentSong.artist})
+        </p>
+      </div>
 
-      <div className="progress-bar-wrapper"> {/* New wrapper for progress bar and time */}
+      <div className="progress-bar-wrapper">
         <div className="time-display-left">{formatTime(currentTime)}</div>
         <input
           type="range"
@@ -106,7 +113,7 @@ const AudioTab = () => {
           max={duration}
           onChange={handleSeek}
         />
-        <div className="time-display-right">-{formatTime(timeLeft)}</div> {/* Time left on the right */}
+        <div className="time-display-right">-{formatTime(timeLeft)}</div>
       </div>
 
       <audio
