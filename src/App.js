@@ -43,7 +43,6 @@ const LyricsApp = () => {
   return (
     <div className="container">
       <div className="card">
-        <h2>Lyrics</h2>
 
         {/* Tab Buttons */}
         <div className="button-group">
@@ -70,11 +69,11 @@ const LyricsApp = () => {
         {/* Language Selector - Only visible in the 'lyrics' tab */}
         {activeTab === 'lyrics' && (
           <div className="language-options">
-            <button onClick={() => setLanguage('english')}>English</button>
-            <button onClick={() => setLanguage('hindi')}>Hindi</button>
-            <button onClick={() => setLanguage('kannada')}>Kannada</button>
-            <button onClick={() => setLanguage('tamil')}>Tamil</button>
-            <button onClick={() => setLanguage('telugu')}>Telugu</button>
+            <button onClick={() => setLanguage('english')}>EN</button>
+            <button onClick={() => setLanguage('hindi')}>हि</button>
+            <button onClick={() => setLanguage('kannada')}>ಕ</button>
+            <button onClick={() => setLanguage('tamil')}>த</button>
+            <button onClick={() => setLanguage('telugu')}>తె</button>
           </div>
         )}
 

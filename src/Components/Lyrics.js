@@ -43,12 +43,11 @@ const LyricsApp = () => {
   return (
     <div className="container">
       <div className="card">
-        <h2>Lyrics</h2>
 
         {/* Language Selector */}
         <div className="language-options">
-          <button onClick={() => setLanguage('english')}>English</button>
-          <button onClick={() => setLanguage('hindi')}>Hindi</button>
+          <button onClick={() => setLanguage('english')}>Eng</button>
+          <button onClick={() => setLanguage('hindi')}>अ</button>
           <button onClick={() => setLanguage('kannada')}>Kannada</button>
           <button onClick={() => setLanguage('tamil')}>Tamil</button>
           <button onClick={() => setLanguage('telugu')}>Telugu</button>
