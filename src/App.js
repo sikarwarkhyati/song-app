@@ -3,7 +3,7 @@ import './App.css';
 import AudioTab from './Components/Audio';
 
 const LyricsApp = () => {
-  const [activeTab, setActiveTab] = useState('lyrics');
+  const [activeTab, setActiveTab] = useState('audio');
   const [language, setLanguage] = useState('english');
 
   // Lyrics for the song in different languages
