@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import './App.css';
-import AudioTab from './Components/Audio';
+import React, { useState } from "react";
+import "./App.css";
+import AudioTab from "./Components/Audio";
 
 const LyricsApp = () => {
-  const [activeTab, setActiveTab] = useState('audio');
-  const [language, setLanguage] = useState('english');
+  const [activeTab, setActiveTab] = useState("audio");
+  const [language, setLanguage] = useState("english");
 
   // Lyrics for the song in different languages
   const lyrics = {
@@ -43,42 +43,30 @@ const LyricsApp = () => {
   return (
     <div className="container">
       <div className="card">
-
         {/* Tab Buttons */}
         <div className="button-group">
           <button
-            className={activeTab === 'audio' ? 'active' : ''}
-            onClick={() => setActiveTab('audio')}
+            className={activeTab === "audio" ? "active" : ""}
+            onClick={() => setActiveTab("audio")}
           >
             Audio
           </button>
           <button
-            className={activeTab === 'lyrics' ? 'active' : ''}
-            onClick={() => setActiveTab('lyrics')}
+            className={activeTab === "lyrics" ? "active" : ""}
+            onClick={() => setActiveTab("lyrics")}
           >
             Lyrics
           </button>
           <button
-            className={activeTab === 'meaning' ? 'active' : ''}
-            onClick={() => setActiveTab('meaning')}
+            className={activeTab === "meaning" ? "active" : ""}
+            onClick={() => setActiveTab("meaning")}
           >
             Meaning
           </button>
         </div>
 
-        {/* Language Selector - Only visible in the 'lyrics' tab */}
-        {activeTab === 'lyrics' && (
-          <div className="language-options">
-            <button onClick={() => setLanguage('english')}>EN</button>
-            <button onClick={() => setLanguage('hindi')}>हि</button>
-            <button onClick={() => setLanguage('kannada')}>ಕ</button>
-            <button onClick={() => setLanguage('tamil')}>த</button>
-            <button onClick={() => setLanguage('telugu')}>తె</button>
-          </div>
-        )}
-
         <div className="content">
-          {activeTab === 'audio' && (
+          {activeTab === "audio" && (
             <AudioTab
               activeTab={activeTab}
               songTitle="believer"
@@ -86,17 +74,51 @@ const LyricsApp = () => {
             />
           )}
 
-          {activeTab === 'lyrics' && (
-            <div className="lyrics-text">
-              {lyrics[language]}
+          {activeTab === "lyrics" && (
+            <div>
+              <div className="language-options">
+                <button
+                  onClick={() => setLanguage("english")}
+                  className={language === "english" ? "active" : ""}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => setLanguage("hindi")}
+                  className={language === "hindi" ? "active" : ""}
+                >
+                  हि
+                </button>
+                <button
+                  onClick={() => setLanguage("kannada")}
+                  className={language === "kannada" ? "active" : ""}
+                >
+                  ಕ
+                </button>
+                <button
+                  onClick={() => setLanguage("tamil")}
+                  className={language === "tamil" ? "active" : ""}
+                >
+                  த
+                </button>
+                <button
+                  onClick={() => setLanguage("telugu")}
+                  className={language === "telugu" ? "active" : ""}
+                >
+                  తె
+                </button>
+              </div>
+              <div className="lyrics-text">{lyrics[language]}</div>
             </div>
           )}
 
-          {activeTab === 'meaning' && (
-            <div>
+          {activeTab === "meaning" && (
+            <div className="meaning-content">
               {/* Provide English meaning or translation for lyrics */}
-              Oh no, if you were formless, I would be the vehicle of knowledge, dear Kanna. <br />
-              Oh no, if you were dance, then I would be the vehicle of the mind, dear Kanna.
+              Oh no, if you were formless, I would be the vehicle of knowledge,
+              dear Kanna. <br />
+              Oh no, if you were dance, then I would be the vehicle of the mind,
+              dear Kanna.
             </div>
           )}
         </div>
